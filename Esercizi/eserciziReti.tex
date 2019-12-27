@@ -1666,6 +1666,296 @@
  			\hline
 		\end{tabular}
 	\end{table}
+	\subsection{Esercizio 3}
+	Usando l'algoritmo di routing di tipo Distance-vector, mostrare l'evoluzione delle tabelle di routing per ogni nodo, considerando che i DV vengono inoltrati dai router seguendo l'ordine: ${E,D,C,B,A}$.
+	\begin{figure}[h!]
+	\centering
+	\includegraphics[width=9cm]{esercizio3}
+	\end{figure}
+	\newline
+	Inizializzo le tabelle di routing di ogni nodo inserendo solo i nodi direttamente connessi (per semplicità includo tutte le destinazioni anche se sono ignote, queste avranno costo e NH vuoto).
+	\begin{table}[h!]
+		\begin{tabular}{|c||c||c|}
+ 			\hline
+	 		\multicolumn{3}{|c|}{A} \\
+ 			\hline
+ 			Dst & Cost & NH\\
+ 			\hline
+ 			A & 0 & - \\
+ 			B & 3 & B \\
+ 			C & 1 & C \\
+ 			D &   &   \\
+ 			E &   &   \\
+ 			\hline
+		\end{tabular}
+		\begin{tabular}{|c||c||c|}
+ 			\hline
+	 		\multicolumn{3}{|c|}{B} \\
+ 			\hline
+ 			Dst & Cost & NH\\
+ 			\hline
+ 			A & 3 & A \\
+ 			B & 0 & - \\
+ 			C & 2 & C  \\
+ 			D &   &   \\
+ 			E &   &   \\
+ 			\hline
+		\end{tabular}
+		\begin{tabular}{|c||c||c|}
+ 			\hline
+	 		\multicolumn{3}{|c|}{C} \\
+ 			\hline
+ 			Dst & Cost & NH\\
+ 			\hline
+ 			A & 1 & A \\
+ 			B & 2 & B \\
+ 			C & 0 & - \\
+ 			D & 1 & D \\
+ 			E & 3 & C \\
+ 			\hline
+		\end{tabular}
+		\begin{tabular}{|c||c||c|}
+ 			\hline
+	 		\multicolumn{3}{|c|}{D} \\
+ 			\hline
+ 			Dst & Cost & NH\\
+ 			\hline
+ 			A &   &   \\
+ 			B &   &   \\
+ 			C & 1 & C \\
+ 			D & 0 & - \\
+ 			E & 1 & E \\
+ 			\hline
+		\end{tabular}
+		\begin{tabular}{|c||c||c|}
+ 			\hline
+	 		\multicolumn{3}{|c|}{E} \\
+ 			\hline
+ 			Dst & Cost & NH\\
+ 			\hline
+ 			A &   &   \\
+ 			B &   &   \\
+ 			C & 3 & C \\
+ 			D & 1 & D \\
+ 			E & 0 & - \\
+ 			\hline
+		\end{tabular}
+	\end{table}
+	\newline \newline \newline 
+	$E$ manda il suo DV: $\{(C,3),(D,1)\}$ a $\{D,C\}$.
+	\newline
+	Nulla cambia, non ci sono tratte migliori ne scoperta di nuovi nodi.
+	\begin{table}[h!]
+		\begin{tabular}{|c||c||c|}
+ 			\hline
+	 		\multicolumn{3}{|c|}{A} \\
+ 			\hline
+ 			Dst & Cost & NH\\
+ 			\hline
+ 			A & 0 & - \\
+ 			B & 3 & B \\
+ 			C & 1 & C \\
+ 			D &   &   \\
+ 			E &   &   \\
+ 			\hline
+		\end{tabular}
+		\begin{tabular}{|c||c||c|}
+ 			\hline
+	 		\multicolumn{3}{|c|}{B} \\
+ 			\hline
+ 			Dst & Cost & NH\\
+ 			\hline
+ 			A & 3 & A \\
+ 			B & 0 & - \\
+ 			C & 2 & C  \\
+ 			D &   &   \\
+ 			E &   &   \\
+ 			\hline
+		\end{tabular}
+		\begin{tabular}{|c||c||c|}
+ 			\hline
+	 		\multicolumn{3}{|c|}{C} \\
+ 			\hline
+ 			Dst & Cost & NH\\
+ 			\hline
+ 			A & 1 & A \\
+ 			B & 2 & B \\
+ 			C & 0 & - \\
+ 			D & 1 & D \\
+ 			E & 3 & C \\
+ 			\hline
+		\end{tabular}
+		\begin{tabular}{|c||c||c|}
+ 			\hline
+	 		\multicolumn{3}{|c|}{D} \\
+ 			\hline
+ 			Dst & Cost & NH\\
+ 			\hline
+ 			A &   &   \\
+ 			B &   &   \\
+ 			C & 1 & C \\
+ 			D & 0 & - \\
+ 			E & 1 & E \\
+ 			\hline
+		\end{tabular}
+		\begin{tabular}{|c||c||c|}
+ 			\hline
+	 		\multicolumn{3}{|c|}{E} \\
+ 			\hline
+ 			Dst & Cost & NH\\
+ 			\hline
+ 			A &   &   \\
+ 			B &   &   \\
+ 			C & 3 & C \\
+ 			D & 1 & D \\
+ 			E & 0 & - \\
+ 			\hline
+		\end{tabular}
+	\end{table}
+	\newline \newline
+	$D$ manda il suo DV: $\{(C,1),(E,1)\}$ a $\{C,E\}$.
+	\newline
+	$E$ scopre un nuovo percorso verso $C$ (e viceversa) con costo inferiore attraverso $D$.
+	\begin{table}[h!]
+		\begin{tabular}{|c||c||c|}
+ 			\hline
+	 		\multicolumn{3}{|c|}{A} \\
+ 			\hline
+ 			Dst & Cost & NH\\
+ 			\hline
+ 			A & 0 & - \\
+ 			B & 3 & B \\
+ 			C & 1 & C \\
+ 			D &   &   \\
+ 			E &   &   \\
+ 			\hline
+		\end{tabular}
+		\begin{tabular}{|c||c||c|}
+ 			\hline
+	 		\multicolumn{3}{|c|}{B} \\
+ 			\hline
+ 			Dst & Cost & NH\\
+ 			\hline
+ 			A & 3 & A \\
+ 			B & 0 & - \\
+ 			C & 2 & C  \\
+ 			D &   &   \\
+ 			E &   &   \\
+ 			\hline
+		\end{tabular}
+		\begin{tabular}{|c||c||c|}
+ 			\hline
+	 		\multicolumn{3}{|c|}{C} \\
+ 			\hline
+ 			Dst & Cost & NH\\
+ 			\hline
+ 			A & 1 & A \\
+ 			B & 2 & B \\
+ 			C & 0 & - \\
+ 			D & 1 & D \\
+ 			E & $\color{red} 2$ & $\color{red} D$ \\
+ 			\hline
+		\end{tabular}
+		\begin{tabular}{|c||c||c|}
+ 			\hline
+	 		\multicolumn{3}{|c|}{D} \\
+ 			\hline
+ 			Dst & Cost & NH\\
+ 			\hline
+ 			A &   &   \\
+ 			B &   &   \\
+ 			C & 1 & C \\
+ 			D & 0 & - \\
+ 			E & 1 & E \\
+ 			\hline
+		\end{tabular}
+		\begin{tabular}{|c||c||c|}
+ 			\hline
+	 		\multicolumn{3}{|c|}{E} \\
+ 			\hline
+ 			Dst & Cost & NH\\
+ 			\hline
+ 			A &   &   \\
+ 			B &   &   \\
+ 			C & $\color{red} 2$ & $\color{red} D$ \\
+ 			D & 1 & D \\
+ 			E & 0 & - \\
+ 			\hline
+		\end{tabular}
+	\end{table}
+	\newline \newline
+	$C$ manda il suo DV: $\{(A,1),(B,2),(D,1),(E,2)\}$ a $\{C,E\}$.
+	\newline
+	$A$ e $B$ vengono a conoscenza dei nodi $D$ e $D$ (e viceversa).
+	\begin{table}[h!]
+		\begin{tabular}{|c||c||c|}
+ 			\hline
+	 		\multicolumn{3}{|c|}{A} \\
+ 			\hline
+ 			Dst & Cost & NH\\
+ 			\hline
+ 			A & 0 & - \\
+ 			B & 3 & B \\
+ 			C & 1 & C \\
+ 			D & $\color{red} 2$ & $\color{red} C$ \\
+ 			E & $\color{red} 3$ & $\color{red} C$ \\
+ 			\hline
+		\end{tabular}
+		\begin{tabular}{|c||c||c|}
+ 			\hline
+	 		\multicolumn{3}{|c|}{B} \\
+ 			\hline
+ 			Dst & Cost & NH\\
+ 			\hline
+ 			A & 3 & A \\
+ 			B & 0 & - \\
+ 			C & 2 & C  \\
+ 			D & $\color{red} 3$ & $\color{red} C$ \\
+ 			E & $\color{red} 4$ & $\color{red} C$ \\
+ 			\hline
+		\end{tabular}
+		\begin{tabular}{|c||c||c|}
+ 			\hline
+	 		\multicolumn{3}{|c|}{C} \\
+ 			\hline
+ 			Dst & Cost & NH\\
+ 			\hline
+ 			A & 1 & A \\
+ 			B & 2 & B \\
+ 			C & 0 & - \\
+ 			D & 1 & D \\
+ 			E & 2 & D \\
+ 			\hline
+		\end{tabular}
+		\begin{tabular}{|c||c||c|}
+ 			\hline
+	 		\multicolumn{3}{|c|}{D} \\
+ 			\hline
+ 			Dst & Cost & NH\\
+ 			\hline
+ 			A & $\color{red} 2$ & $\color{red} C$ \\
+ 			B & $\color{red} 3$ & $\color{red} C$ \\
+ 			C & 1 & C \\
+ 			D & 0 & - \\
+ 			E & 1 & E \\
+ 			\hline
+		\end{tabular}
+		\begin{tabular}{|c||c||c|}
+ 			\hline
+	 		\multicolumn{3}{|c|}{E} \\
+ 			\hline
+ 			Dst & Cost & NH\\
+ 			\hline
+ 			A & $\color{red} 3$ & $\color{red} C$ \\
+ 			B & $\color{red} 4$ & $\color{red} C$ \\
+ 			C & 2 & D \\
+ 			D & 1 & D \\
+ 			E & 0 & - \\
+ 			\hline
+		\end{tabular}
+	\end{table}
+	\newline \newline
+	In questo modo si ha raggiunto la convergenza (se si continua con l'inoltro dei DV, non si avranno più aggiornamenti dei percorsi, in quanto si ha già trovato il percorso migliore per ogni nodo).
 \newpage
 \section{TCP}
 	\subsection{Esercizio 1}
