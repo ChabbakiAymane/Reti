@@ -1,6 +1,5 @@
 \documentclass[10pt]{article}
 \usepackage[italian]{babel}
-\usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath,amsfonts,amssymb,mathtools, ulem, booktabs,subcaption, float}
 \usepackage[margin=1.0in]{geometry}
@@ -73,7 +72,7 @@
  			\hline
  			3 & $A,C,B,D$ & & & & $\color{red} 10,C$ & $14,B$ \\
  			\hline
- 			4 & $A,C,B,D,E$ & & & & & $\color{red} 12,C$ \\[0.5ex] 
+ 			4 & $A,C,B,D,E$ & & & & & $\color{red} 12,E$ \\[0.5ex] 
  			\hline
 		\end{tabular}
 		\quad
@@ -224,7 +223,7 @@
 			\hline
  			Destination & Cost & Next Hop\\[0.5ex] 
  			\hline\hline
-			$A$ & $4$ & $D$\\
+			$A$ & $4$ & $A$\\
 			$B$ & $4$ & $C$\\
  			$C$ & $1$ & $C$\\
 			$D$ & $0$ & $-$\\
@@ -651,7 +650,7 @@
 	\newline
 	$E$ e $C$ appena ricevono il DV, controllano se possono raggiungere una destinazione (o scoprirne una nuova) con un costo minore rispetto a quello che già conoscono.
 	\newline
-	$E$ per prima cosa controlla il percorso verso se stesso usando la regola dell'algoritmo: $$DV_D[E].cost + c(E,D) < R_D[D].cost?$$
+	$E$ per prima cosa controlla il percorso verso se stesso usando la regola dell'algoritmo: $$DV_D[E].cost + c(E,D) < R_E[E].cost?$$
 	$E$ sta controllando se $2<0$, che è falso, dunque il percorso verso $D$ non viene modificato.
 	\newline
 	$E$ esegue la stessa procedura per $C$ e visto che $2+2 < \infty$, $E$ scopre un percorso attraverso $D$ per raggiungere $C$ (prima non conosceva $C$).
@@ -725,7 +724,7 @@
 		\end{tabular}
 	\end{table}
 	\newline \newline \newline \newline
-	$E$ manda il suo DV: $\{(A,1),(B,5),(4,D),(2,D)\}$ a $\{A,B,D\}$.
+	$E$ manda il suo DV: $\{(A,1),(B,5),(4,C),(2,D)\}$ a $\{A,B,D\}$.
 	\newline
 	$A$ scopre dell'esistenza dei nodi $C$ e $D$ (raggiungibili attraverso il nodo $E$) e aggiorna il suo percorso verso $B$ attraverso il nodo $E$.
 	\newline
@@ -742,7 +741,7 @@
  			A & 0 & - \\
  			B & $\color{red} 6$  & $\color{red} E$ \\
  			C & $\color{red} 5$  & $\color{red} E$  \\
- 			D & $\color{red} 3$  & $\color{red} D$ \\
+ 			D & $\color{red} 3$  & $\color{red} E$ \\
  			E & 1 & E \\
  			\hline
 		\end{tabular}
@@ -813,9 +812,9 @@
  			Dst & Cost & NH\\
  			\hline
  			A & 0 & - \\
- 			B & 7 & B \\
- 			C & 6 & E  \\
- 			D & 3 & D \\
+ 			B & 6 & E \\
+ 			C & 5 & E  \\
+ 			D & 3 & E \\
  			E & 1 & E \\
  			\hline
 		\end{tabular}
@@ -882,9 +881,9 @@
  			Dst & Cost & NH\\
  			\hline
  			A & 0 & - \\
- 			B & 7 & B \\
- 			C & 6 & E  \\
- 			D & 3 & D \\
+ 			B & 6 & E \\
+ 			C & 5 & E  \\
+ 			D & 3 & E \\
  			E & 1 & E \\
  			\hline
 		\end{tabular}
@@ -955,9 +954,9 @@
  			Dst & Cost & NH\\
  			\hline
  			A & 0 & - \\
- 			B & 7 & B \\
- 			C & 6 & E  \\
- 			D & 3 & D \\
+ 			B & 6 & E \\
+ 			C & 5 & E  \\
+ 			D & 3 & E \\
  			E & 1 & E \\
  			\hline
 		\end{tabular}
@@ -1026,9 +1025,9 @@
  			Dst & Cost & NH\\
  			\hline
  			A & 0 & - \\
- 			B & 7 & B \\
- 			C & 6 & E  \\
- 			D & 3 & D \\
+ 			B & 6 & E \\
+ 			C & 5 & E  \\
+ 			D & 3 & E \\
  			E & 1 & E \\
  			\hline
 		\end{tabular}
