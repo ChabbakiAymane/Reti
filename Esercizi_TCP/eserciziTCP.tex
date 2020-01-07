@@ -114,12 +114,11 @@
 				\bottomrule
 				\end{tabular}
 			\end{center}
-			\item Dunque per il trasferimento di OC1 e OS1, il tempo impiegato $T_t = 3 \cdot RTT = 3 \cdot 1.2 \,ms = 3.6 \,ms$
+			\item Dunque per il trasferimento di OC1 e OS1, il tempo impiegato $T_t = 5 \cdot RTT = 5 \cdot 1.2 \,ms = 6.0 \,ms$
 		\end{itemize}
 	\item Gli oggetti vengono trasmessi nelle connessioni T1, T2, T3 a discrezione del browser del Client e dal Server-Web del Server, che sceglieranno (per questioni di efficienza, congestione, carico di dati) il modo più appropriato per trasmettere i dati.
 	\item La perdita di pacchetti su una connessione non influenza direttamente il comportamento di un'altra connessione. Prendiamo come esempio T1 e T2; se T1 sta inviando dati T2 non può inviare nulla, finché T1 non ha finito di usare il canale; dunque se T1 perde pacchetti, l'unica conseguenza è che T2 subirà un ritardo nel trasmettere i suoi dati.
-	\color{red}
-	\item  Non saprei come rispondere in modo \textit{formale}, mi verrebbe da dire che visto che i due flussi appartengono a due stream diversi, questi due flussi di dati (uno da parte del Client e uno da parte del Server) non si influenzino, in quanto verranno gestiti da applicazioni diverse.
+	\item Essendo un'architettura Client-Server di norma vi è una richiesta o un invio di dati lato client ed una successiva risposta lato server. Le due half-connections funzioneranno quindi a tratti alterni, come se la connessione non fosse full-duplex.
 	\color{black}
 	\item Converto la dimensione dell'oggetto OS2 in segmenti:
 		 	\begin{equation}
@@ -174,6 +173,8 @@
 				T3 & = OC2 = 6 \textrm{ segmenti e } OS2 = 15 \textrm{ segmenti} \\
 				\end{split}
 			\end{equation}
+			\item Non si possono considerare separatamente le connessioni. Bisogna considerare che per inviare un segmento ti servono lato client $100 \mu s$. I segmenti vengono inviati contemporaneamente dalle 3 connessioni, ma uno alla volta sul canale. Se le 3 connessioni partono con finestra 1 contemporaneamente, la prima invia il $1 \degree$ segmento al tempo 0, la seconda al tempo $100 \mu s$, la terza al tempo $200 \mu s$. In un RTT ci stanno circa 12 segmenti. I segmenti sono 12 e hanno spazio sul canale sia che la connessione sia una, che le connessioni siano N (non è che sono 12 per ogni connessione), bisogna tener conto di questo quando si svolge l'esercizio. Poi c'è la parte complicata che i due link hanno delle velocità diverse, quindi bisogna considerare il link più lento come collo di bottiglia, ma queste sono cose decisamente complicate che noi non abbiamo visto a lezione.
+			Sotto viene svolto solo il calcolo del tempo impiegato per trasferire gli oggetti se la connessione fosse una sola e non parallela.
 			\newpage
 			\item Trasferimento OC2:
 			\begin{center}
@@ -273,10 +274,6 @@
 				\end{tabular}
 			\end{center}
 			\item Il trasferimento di OC4 e OS4: $T_{t3} = 4 \cdot RTT = 4 \cdot 1.2 \,ms = 4.8 \,ms$
-			%\newline \noindent {\color{red} \rule{\linewidth}{0.2mm} }
-			\item
-			Dunque si ha che la trasmissione degli 8 oggetti impiega in totale:
-			$$3.6 \,ms + \color{red} \textrm{ se il tempo della trasmissione più lunga oppure la somma di tutte e 3 le trasmissioni?}$$
 		\end{itemize}
 		\item
 		Calcolo la somma dei dati che devo inviare:
@@ -332,7 +329,7 @@
 				\end{center}
 				\item Il trasferimento di OC4 e OS4: $T_{t3} = 6 \cdot RTT = 6 \cdot 1.2 \,ms = 7.2 \,ms$
 			\end{itemize}
-		\item TODO
+		\item 
 	\end{enumerate}
 	
 	\section{Esame 12-6-2019}
@@ -376,10 +373,10 @@
 		\]
 		
 		Visto che si hanno due indirizzi di rete diversi (128.122.15.128 e 128.122.15.0) allora Client e Server non comunicano direttamente, ma dovranno comunicare tramite un router.
-		\item MSS assume il valore: $$\textrm{MSS } = 1500 - 20 - 20 - 34 = 1426 \textrm{ Byte}$$
+		\item MSS assume il valore: $$\textrm{MSS } = 1500 - 20 - 20 - 36 = 1424 \textrm{ Byte}$$
 		\item In rete vengono trasmessi:
-		$$ N_{s} =  \frac{56200 \textrm{ Byte}}{1426 \textrm{ Byte}} = 40 \textrm{ segmenti}$$
-		\item L'ultimo segmento ha dimensione: $$(40 \cdot 1426 \textrm{ Byte}) - (39.4 \cdot 1426 \textrm{ Byte}) = 855.6 \textrm{ Byte}$$
+		$$ N_{s} =  \frac{56200 \textrm{ Byte}}{1424 \textrm{ Byte}} = 40 \textrm{ segmenti}$$
+		\item L'ultimo segmento ha dimensione: $$(40 \cdot 1424 \textrm{ Byte}) - (39.5 \cdot 1424 \textrm{ Byte}) = 712 \textrm{ Byte}$$
 		\newpage
 		\item TCP utilizza un meccanisco a 3 step per aprire una connesione tra sorgente e destinatario. Questa prevede che il client mandi un pacchetto speciale (con il flag SYN settato ad 1) al Server. Una volta ricevuto dal Server questo decide se accettare la domanda di connessione o rifiutarla. 
 		Se la accetta, allora risponde anch'esso con un pacchetto SYN (non è un semplice SYN in quanto oltre al flag SYN ha anche il flag ACK settato così da notificare che ha ricevuto la richiesta precedentemente inviata dal Client). A questo punto il Client invia un ACK per confermare la ricezione 
