@@ -1319,8 +1319,8 @@
  			\hline
  			A & 0 & - \\
  			B & 1 & B \\
- 			C & 5 & E \\
- 			D & 2 & E \\
+ 			C & 5 & B \\
+ 			D & 2 & B \\
  			E & 1 & E \\
  			\hline
 		\end{tabular}
@@ -1390,8 +1390,8 @@
  			\hline
  			A & 0 & - \\
  			B & 1 & B \\
- 			C & 5 & E \\
- 			D & 2 & E \\
+ 			C & 5 & B \\
+ 			D & 2 & B \\
  			E & 1 & E \\
  			\hline
 		\end{tabular}
@@ -1463,8 +1463,8 @@
  			\hline
  			A & 0 & - \\
  			B & 1 & B \\
- 			C & 5 & E \\
- 			D & 2 & E \\
+ 			C & 5 & B \\
+ 			D & 2 & B \\
  			E & 1 & E \\
  			\hline
 		\end{tabular}
@@ -1537,7 +1537,7 @@
  			A & 0 & - \\
  			B & 1 & B \\
  			C & $\color{red} 4$ & $\color{red} E$ \\
- 			D & 2 & E \\
+ 			D & 2 & B \\
  			E & 1 & E \\
  			\hline
 		\end{tabular}
@@ -1610,7 +1610,7 @@
  			A & 0 & - \\
  			B & 1 & B \\
  			C & $\color{red} 3$ & $\color{red} B$ \\
- 			D & 2 & E \\
+ 			D & 2 & B \\
  			E & 1 & E \\
  			\hline
 		\end{tabular}
@@ -1947,8 +1947,8 @@
  			\hline
  			Dst & Cost & NH\\
  			\hline
- 			A & $\color{red} 3$ & $\color{red} C$ \\
- 			B & $\color{red} 4$ & $\color{red} C$ \\
+ 			A & $\color{red} 4$ & $\color{red} C$ \\
+ 			B & $\color{red} 5$ & $\color{red} C$ \\
  			C & 2 & D \\
  			D & 1 & D \\
  			E & 0 & - \\
@@ -1956,5 +1956,11 @@
 		\end{tabular}
 	\end{table}
 	\newline \newline
-	In questo modo si ha raggiunto la convergenza (se si continua con l'inoltro dei DV, non si avranno più aggiornamenti dei percorsi, in quanto si ha già trovato il percorso migliore per ogni nodo).
-\end{document} 
+	I nodi $B$ e $A$ mandano i loro DV a $\{A,B,C\}$ ma non ci sono modifiche. Il set di messaggi è finito, ma non abbiamo ancora raggiunto la convergenza, infatti il nodo E deve ancora trovare il percorso migliore verso i nodi A e B.
+	\newline \newline $E$ manda il suo Dv ai nodi $\{D,C\}$ ma nulla cambia.
+	\newline Quando il nodo $D$ manda il suo DV ai nodi $\{C,E\}$, $E$ trova un percorso migliore verso i nodi $\{A,B\}$ attraverso $D$; la tabella di $E$ viene modificata nel seguente modo:
+	\begin{itemize}
+		\item $A$ - $\color{red} 3$ $\color{red} D$
+		\item $B$ - $\color{red} 4$ $\color{red} D$
+	\end{itemize}
+	\end{document}
