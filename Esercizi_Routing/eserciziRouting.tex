@@ -270,7 +270,7 @@
 	\newpage
 	
 	\subsection{Esercizio 6}
-	Usando gli algoritmi propri di OSPF, ed assumendo che i costi siano già stati distribuiti, si calcoli la tabella di instradamento dei nodi ${A,C,E}$.
+	Usando gli algoritmi propri di OSPF, ed assumendo che i costi siano già stati distribuiti, si calcoli la tabella di instradamento dei nodi ${B,C,E,F}$.
 	\begin{figure}[h]
 	\centering
 	\includegraphics[width=10cm]{es6}
@@ -290,14 +290,14 @@
  			3 & $B,A,D,E$ & & $\infty$ & & & $\color{red} 6,D$ \\
  			\hline
  			4 & $B,A,D,E,F$ & & $\color{red} 7,F$ & & & \\
- 			\hline
+			\hline
 		\end{tabular}
 		\quad
 		\begin{tabular}{||c || c || c||}
 			\hline
  			Destination & Cost & Next Hop\\[0.5ex] 
  			\hline\hline
-			$A$ & $3$ & $B$\\
+			$A$ & $3$ & $A$\\
 			$B$ & $0$ & $-$\\
  			$C$ & $7$ & $A$\\
 			$D$ & $5$ & $A$\\
