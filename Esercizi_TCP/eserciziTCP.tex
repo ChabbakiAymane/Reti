@@ -63,8 +63,30 @@
 	\end{enumerate}
 	\textbf{Soluzione}:
 	\begin{enumerate}
-		\item Visto che i tempi di trasmissione di un pacchetto tra Client e Server, inclusi gli switch e rounter, si ha che: $$RTT = 600 \mu s \cdot 2 = 1200 \mu s = 1.2 ms$$
-		\item Calcolo dei dati per rispondere alla domanda
+		\item Visto che i tempi di trasmissione di un pacchetto tra Client e Server, inclusi gli switch e rounter, si ha che: 
+		$$ \textrm{RTT} = 600 \mu s \cdot 2 = 1200 \mu s $$
+		\begin{itemize}
+			\item Sappiamo che:
+			\begin{equation*}
+				\begin{split}
+					\textrm{SRTT} &= (1 - \alpha) \cdot \textrm{SRTT} + \alpha \cdot \textrm{RTT (con } \alpha = 0.125 \textrm{)}\\
+					\textrm{RTTVAR} &= (1 - \beta) \cdot \textrm{RTTVAR} + \beta \cdot |\textrm{SRTT - RTT}| 
+				\end{split}
+			\end{equation*}
+		\item RTO è definito come: $$\textrm{RTO} = \textrm{MAX}(\textrm{MINRTO, SRTT} + 4 \cdot \textrm{RTTVAR})$$
+		\item MINRTO $= 1s$ (standard)
+		\begin{equation*}
+				\begin{split}
+					\textrm{SRTT} + 4 \cdot \textrm{RTTVAR}
+					&= \left[(1 - \alpha) \cdot \textrm{SRTT} + \alpha \cdot \textrm{RTT}\right] + 4 \cdot \left[(1 - \beta) \cdot \textrm{RTTVAR} + \beta \cdot |\textrm{SRTT - RTT}|\right] \\
+					&=  (\alpha \cdot \textrm{RTT}) + (4 \cdot \beta \cdot |\textrm{SRTT - RTT}|) \\
+					&= (0.125 \cdot 1200 \mu s) + (4 \cdot 0.25 \cdot 100 \mu s) \\
+					&= 150 \mu s + 100 \mu s = 250 \mu s
+				\end{split}
+			\end{equation*}
+		\item Dunque RTO $=$ MAX($1s, 250 \mu s$) = $1s$
+		\end{itemize}	
+	\item Calcolo dei dati necessari per rispondere alla domanda:			
 		\begin{itemize}
 			\item  \textbf{Timestamp} è un'opzione che viene usata per il calcolo del RTT su qualunque segmento, semplicemente si ha che ogni segmento ha un overhead di $10$ byte in aggiunta all'header TCP, dunque si ha che: $$MSS = 1500 - 20 - 20 - 10 = 1450$$
 		\item Visto che TCP ragiona in Byte, ma noi siamo più comodi a ragionare con segmenti, converto le RCWND e le dimensioni degli oggetti in segmenti:
@@ -99,6 +121,7 @@
 				\bottomrule
 				\end{tabular}
 			\end{center}
+			\newpage
 			\item Trasferimento OS1:
 			\begin{center}
 				\centering
@@ -175,7 +198,6 @@
 			\end{equation}
 			\item Non si possono considerare separatamente le connessioni. Bisogna considerare che per inviare un segmento ti servono lato client $100 \mu s$. I segmenti vengono inviati contemporaneamente dalle 3 connessioni, ma uno alla volta sul canale. Se le 3 connessioni partono con finestra 1 contemporaneamente, la prima invia il $1 \degree$ segmento al tempo 0, la seconda al tempo $100 \mu s$, la terza al tempo $200 \mu s$. In un RTT ci stanno circa 12 segmenti. I segmenti sono 12 e hanno spazio sul canale sia che la connessione sia una, che le connessioni siano N (non è che sono 12 per ogni connessione), bisogna tener conto di questo quando si svolge l'esercizio. Poi c'è la parte complicata che i due link hanno delle velocità diverse, quindi bisogna considerare il link più lento come collo di bottiglia, ma queste sono cose decisamente complicate che noi non abbiamo visto a lezione.
 			Sotto viene svolto solo il calcolo del tempo impiegato per trasferire gli oggetti se la connessione fosse una sola e non parallela.
-			\newpage
 			\item Trasferimento OC2:
 			\begin{center}
 				\centering
@@ -205,7 +227,7 @@
 				\end{tabular}
 			\end{center}
 			\smallskip
-			\item Il trasferimento di OC2 e OS2: $T_{t1} = 3 \cdot RTT = 3 \cdot 1.2 \,ms = 3.6 \,ms$
+			\item Il trasferimento di OC2 e OS2: $T_{t1} = 5 \cdot RTT = 5 \cdot 1.2 \,ms = 6 \,ms$
 			\item Trasferimento OC3:
 			\begin{center}
 				\centering
@@ -240,7 +262,8 @@
 				\bottomrule
 				\end{tabular}
 			\end{center}
-			\item Il trasferimento di OC3 e OS3: $T_{t2} = 4 \cdot RTT = 4 \cdot 1.2 \,ms = 4.8 \,ms$
+			\item Il trasferimento di OC3 e OS3: $T_{t2} = 8 \cdot RTT = 8 \cdot 1.2 \,ms = 9.6 \,ms$
+			\newpage
 			\item Trasferimento OC4:
 			\begin{center}
 				\centering
@@ -273,7 +296,7 @@
 				\bottomrule
 				\end{tabular}
 			\end{center}
-			\item Il trasferimento di OC4 e OS4: $T_{t3} = 4 \cdot RTT = 4 \cdot 1.2 \,ms = 4.8 \,ms$
+			\item Il trasferimento di OC4 e OS4: $T_{t3} = 7 \cdot RTT = 7 \cdot 1.2 \,ms = 8.4 \,ms$
 		\end{itemize}
 		\item
 		Calcolo la somma dei dati che devo inviare:
@@ -327,9 +350,9 @@
 					\bottomrule
 					\end{tabular}
 				\end{center}
-				\item Il trasferimento di OC4 e OS4: $T_{t3} = 6 \cdot RTT = 6 \cdot 1.2 \,ms = 7.2 \,ms$
+				\item Il trasferimento di OC4 e OS4: $T_{t3} = 10 \cdot RTT = 10 \cdot 1.2 \,ms = 12 \,ms$
 			\end{itemize}
-		\item 
+		\item TODO
 	\end{enumerate}
 	
 	\section{Esame 12-6-2019}
@@ -376,9 +399,9 @@
 		\item MSS assume il valore: $$\textrm{MSS } = 1500 - 20 - 20 - 36 = 1424 \textrm{ Byte}$$
 		\item In rete vengono trasmessi:
 		$$ N_{s} =  \frac{56200 \textrm{ Byte}}{1424 \textrm{ Byte}} = 40 \textrm{ segmenti}$$
-		\item L'ultimo segmento ha dimensione: $$(40 \cdot 1424 \textrm{ Byte}) - (39.5 \cdot 1424 \textrm{ Byte}) = 712 \textrm{ Byte}$$
-		\newpage
-		\item TCP utilizza un meccanisco a 3 step per aprire una connesione tra sorgente e destinatario. Questa prevede che il client mandi un pacchetto speciale (con il flag SYN settato ad 1) al Server. Una volta ricevuto dal Server questo decide se accettare la domanda di connessione o rifiutarla. 
+		\item L'ultimo segmento ha dimensione: 
+		$$56200 \textrm{ Byte} - (39 \cdot 1424) \textrm{ Byte} = 56200 \textrm{ Byte} - 55536 \textrm{ Byte} = 664 \textrm{ Byte}$$
+		\item TCP utilizza un meccanismo a 3 step per aprire una connesione tra sorgente e destinatario. Questa prevede che il client mandi un pacchetto speciale (con il flag SYN settato ad 1) al Server. Una volta ricevuto dal Server questo decide se accettare la domanda di connessione o rifiutarla. 
 		Se la accetta, allora risponde anch'esso con un pacchetto SYN (non è un semplice SYN in quanto oltre al flag SYN ha anche il flag ACK settato così da notificare che ha ricevuto la richiesta precedentemente inviata dal Client). A questo punto il Client invia un ACK per confermare la ricezione 
 		del messaggio del Server e finito questo procedimento, esiste una connessione TCP tra il Client e il Server.
 		\begin{figure}[H]
