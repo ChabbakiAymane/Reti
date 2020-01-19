@@ -9,8 +9,6 @@ Contiene materiale teorico (TODO) ed esercizi che riguardando:
 - Routing:
       - Distance Vector (Dijkstra, OSPF)
       - Link State (Bellman-Ford)
-- Subnetting:
-     - Indirizzi privati, pubblici, NAT, DHCP, ecc.
 
 Qui troverete la versione PDF dei vari documenti.
 
