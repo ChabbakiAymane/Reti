@@ -156,7 +156,7 @@
 		\item RTO = $120 ms$, SSTHR = $64$ Kbyte $= 45$ segmenti.
 		\item Il trasferimento parte con Slow Start con CWND = 1. Dopo un RTT, la finestra di trasmissione raddoppia e possono partire i pacchetti S2 e S3. Dopo un altro RTT, la finestra di trasmissione raddoppia nuovamente e vengono inviati i pacchetti S3,S4,S5,S6,S7.
 		\item Al terzo RTT, la finestra di trasmissione è di 8 segmenti, i segmenti S8-S11 vengono trasmessi correttamente; il segmento S12 viene perso.
-		\item Vengono trasmessi successivamente i segmenti S13-S15, ma visto che il Client è fermo ancora al segmento S11 e si aspetta S12, manda 3 ACK duplicati.
+		\item Vengono trasmessi successivamente i segmenti S13-S15, ma visto che il Client è fermo ancora al segmento S11 e aspetta S12, manda 3 ACK duplicati.
 		\item Questo fa si che si passi in Fast Recovery (SSTHR = CWND/2 = 12/2 = 6, CWND = SSTHR + 3 = 9, Tw = [12,13,14,15,16,17], recovery = 23). Viene ritrasmesso il segmento S12 (non vengono trasmessi altri segmenti in quanto la finestra di trasmissione non contiene segmenti nuovi da trasmettere).
 		\item I segmenti S16-S23 vengono ricevuti dal Client, ma ritorna per ognuno di questi segmenti un ACK duplicato notificando al Server che è in attesa di S12. Questi 8 ACK duplicati fanno si che la dimensione della finestra di trasmissione aumenti di 8 (Tw = [12,...,28]). La finestra di trasmissione mi permette di trasmettere i segmenti S24-S28.
 		\item Il Client riceve il segmento S12 e trasmette un ACK cumulativo (A23) al Server, notificando che ha ricevuto correttamente fino al segmento S23.
@@ -228,7 +228,7 @@
 					\includegraphics[width=10cm]{Esame1112019_Senzaperdite}
 				\end{figure}
 				\item Tempo di trasmissione:
-				$$T = \frac{8 \cdot (24 \cdot 1500 + 1080) \textrm{ bit}}{ 100 \cdot 10^6 \textrm{ bit/s}} + 3 \textrm{ RTT} = 2966.4 \mu s + 1200 \mu s = 4166.4 \mu s = 4.2 ms$$
+				$$T = \frac{8 \cdot (28 \cdot 1500 + 1080) \textrm{ bit}}{ 100 \cdot 10^6 \textrm{ bit/s}} + 2 \textrm{ RTT} = 3446.4 \mu s + 800 \mu s = 4246.4 \mu s = 4.3 ms$$
 			\end{itemize}
 		\end{itemize}
 		\item Non influenza direttamente, quello che succede se una connessione perde pacchetti è che causa un ritardo all'altra connessione, in quanto il traffico non può transitare contemporaneamente nelle due connessioni, sennò si rischiano delle collisioni.
@@ -356,7 +356,7 @@
 				\item Dopo un RTT, la finestra di trasmissione raddoppia e vengono trasmessi i segmenti S2 e S3.
 				\item Dopo un altro RTT, la finestra raddoppia nuovamente e vengono inviati i pacchetti S3,S4,S5,S6,S7.
 				\item Al terzo RTT, la finestra è di 8 segmenti e l'ultimo pacchetto che viene trasmesso è il $15 \degree$, che viene perso.
-				\item Gli ACK dei segmenti trasmessi prima del pacchetto S15 vengono ricevuti dal Client, che aumenta la finestra di trasmissione (CWND = [15-29]) ma il Server non riceve l'ACK del segmento A15.
+				\item Gli ACK dei segmenti trasmessi prima del pacchetto S15 vengono ricevuti dal Client, il Server aumenta la finestra di trasmissione (CWND = [15-29]) ma non riceve l'ACK del segmento A15.
 				\item Il Server trasmette i segmenti non inviati della finestra di trasmissione e dopo un RTT inizia a ricevere gli ACK dal Client.
 				\item Visto che il segmento S15 non è stato ricevuto dal Client, il Server riceve 3 ACK duplicati dei segmenti S16-S18 (viene notificato del fatto che il Client ha ricevuto fino al S14 pacchetto).
 				\item TCP entra in fase Fast recovery (dimezza SSTHR, inizializza CWND a SSTHR e la incrementa di 3, salva nella variabile recovery A29 che è l'ultimo pacchetto che il Server ha inviato).
@@ -377,5 +377,42 @@
 				  \includegraphics[width=\textwidth]{Esame812019_Conperdite2}
 				\end{subfigure}
 			  \end{figure}
+	\end{enumerate}
+	\newpage
+	\section{Esame 22-01-2020}
+	\begin{itemize}
+		\item Un file di dimensione di $49000$ Bytes viene trasferito tramite una connessione TCP tra due host.
+		\item La velocità di canale misurata a livello IP è di $10$ Mbit/s e il tempo di propagazione $T_p$ tra i due host è di $4.2ms$.
+	\end{itemize}
+	\textbf{Domande:}
+	\begin{enumerate}
+		\item Si calcoli il numero di segmenti TCP che è neccessario inviare per trasferire l'intero file e la loro dimensione, assumendo la MTU standard di Ethernet.
+		\item Si descriva il comportamento di TCP nella fase Slow Start.
+		\item Si calcoli il throughput misurato a livello applicativo supponendo che:
+			\begin{itemize}
+				\item non vengano persi segmenti
+				\item la finestra di ricezione (RWND) sia di 64 segmenti
+				\item SSTHR sia uguale a RWND
+			\end{itemize}
+			Nel calcolo del throughput ignorare i tempi necessari a stabilire e a chiudere la connessione.
+		\item Come cambia il throughput calcolato al punto 3 nel caso in cui RWND $=$ SSTHR $= 16$ segmenti? Perchè?
+		\item Si calcoli il throughput come al punto 3, ma supponendo la perdita del $24 \degree$ segmento. Che dimensione ha la finestra di trasmissione dopo aver ricevuto l'ultimo ACK? 
+	\end{enumerate}
+	\textbf{Domande:}
+	\begin{enumerate}
+		\item Sapendo che $$\textrm{MSS} = \textrm{MTU} - 20 \textrm{ Byte} - 20 \textrm{ Byte} = (1500 - 40) \textrm{ Byte} = 1460 \textrm{ Byte}$$
+			Si ha che: $$N_s = \frac{49000 \textrm{ Byte}}{1460 \textrm{ Byte}} = 33.56 = 34 \textrm{ segmenti}$$
+			Mentre l'ultimo segmento ha dimensione: $$\textrm{Last} = 49000 - (33 \cdot 1460) \textrm{ Byte} = 49000 - 48180 = 820 \textrm{ Byte}$$
+		\item Descrizione di Slow Start (come si comporta, algoritmo e come si comporta in caso di perdita/SSTHR)
+		\item Dati utili:
+			\begin{itemize}
+				\item $\textrm{RTT} = 2 \cdot T_p = 2 \cdot 4.2 ms = 8.4 ms$
+				\item $T_t = \displaystyle{\frac{1500 \textrm{ Byte}}{10 \textrm{Mbit/s}} = \frac{1500 \cdot 8 \textrm{ bit}}{10 \cdot 10^6 \textrm{ bit/s}} = \frac{12000 \textrm{ bit}}{10 \cdot 10^6 \textrm{ bit/s}} = 0.0012 s = 1.2 ms}$
+				\item Siamo nel caso RTT $> T_t$ e si ha: $$\frac{\textrm{RTT}}{T_t} = \frac{8.4 ms}{1.2 ms} = 7$$
+			\end{itemize}
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=15cm]{Esame_SenzaPerdite_2212020}
+			\end{figure}
 	\end{enumerate}
 \end{document} 
